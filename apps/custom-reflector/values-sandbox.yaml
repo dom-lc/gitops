@@ -1,0 +1,4 @@
+configMaps:
+  global-config-lc:
+    common: "lc"
+    port: "80"

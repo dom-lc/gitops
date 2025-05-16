@@ -81,3 +81,5 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ```
+
+To create this application, use: ```kubectl apply -f deployments/application.custom-reflector.yaml```.
