@@ -83,3 +83,14 @@ spec:
 ```
 
 To create this application, use: ```kubectl apply -f deployments/application.custom-reflector.yaml```.
+
+### Works
+
+After deploying we can see our application is created and synced</br>
+
+![Argo UI](imgs/application-home.png)
+
+</br></br>
+We can also see it created all our desired customconfig and dependencies</br>
+![Deployment](imgs/deployed.png)
+
