@@ -1,0 +1,29 @@
+# This is a self-referential application that allows ArgoCD to manage itself.
+# It takes the chart from the original ArgoCd helm repo (installed manually in the setup.sh)
+# and applies my apps/argocdvalues-sandbox.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-self
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: argo-cd
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: 6.10.2   # This is the Helm chart version, not HEAD
+      helm:
+        valueFiles:
+          - $values/apps/argocd/values-sandbox.yaml
+    - repoURL: https://github.com/dom-lc/gitops.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
