@@ -11,7 +11,7 @@ spec:
   sources:
     - repoURL: https://github.com/dom-lc/manifesto.git
       targetRevision: HEAD  # This is the Helm chart version, not HEAD
-      path: custom-reflector
+      path: apps/custom-reflector
       helm:
         valueFiles:
           - $values/apps/custom-reflector/values-sandbox.yaml

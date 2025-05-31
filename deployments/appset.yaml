@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: core-appset
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/dom-lc/manifesto.git
+        revision: HEAD
+        directories:
+          - path: apps/*
+  template:
+    metadata:
+      name: '{{path.basename}}-sandbox'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://github.com/dom-lc/manifesto.git
+          targetRevision: HEAD
+          path: '{{path}}'
+          helm:
+            valueFiles:
+              - $values/apps/{{path.basename}}/values-sandbox.yaml
+        - repoURL: https://github.com/dom-lc/gitops.git
+          targetRevision: HEAD
+          ref: values
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
